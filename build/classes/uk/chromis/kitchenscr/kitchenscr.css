@@ -59,26 +59,34 @@
 
 .list-cell 
 {
-  -fx-font: 16pt ;
+  -fx-font-size: 16pt ;
   -fx-font-weight: bold;
 }
 
 .clock {
-  -fx-font: 50pt;
+  -fx-font-size: 26pt;
   -fx-font-weight: bold;    
 }
 
 
 .label.order_id, .order_timer {
-    font-size: 30pt !important;
+    -fx-font-size: 16pt;
 }
 
 .orders_waiting {
-    font-size: 14pt;
+    -fx-font-size: 14pt;
 }
 
 
 .recall, .exit {
-    font-size: 20pt;
-    font-weight: bold;
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-padding: 2px;
+}
+
+
+.bump_bar {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-padding: 2px;
 }
