@@ -109,7 +109,7 @@ public class AppConfig {
     private void loadDefault() {
         m_propsconfig.setProperty("db.engine", "MySql");
         m_propsconfig.setProperty("db.driver", "com.mysql.jdbc.Driver");
-        m_propsconfig.setProperty("db.URL", "jdbc:mysql://localhost:3306/unicentaopos");
+        m_propsconfig.setProperty("db.URL", "jdbc:mysql://localhost:3306/chromispos");
         m_propsconfig.setProperty("db.user", "");
         m_propsconfig.setProperty("db.password", "");
         m_propsconfig.setProperty("screen.displaynumber", "1");

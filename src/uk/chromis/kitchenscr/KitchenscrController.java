@@ -249,7 +249,7 @@ public class KitchenscrController implements Initializable {
         String exitAction = AppConfig.getInstance().getProperty("misc.exitaction");
         if (exitAction == null) {
             exitAction = "0";
-        };
+        }
         switch (exitAction) {
             case "0": // Exit, do not perform additional action
                 System.exit(0);

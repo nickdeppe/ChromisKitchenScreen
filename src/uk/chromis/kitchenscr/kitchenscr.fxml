@@ -165,7 +165,7 @@
                                        </children></AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="waiting_detail">
                                        <children>
-                                          <ListView fx:id="orderlist" editable="true" layoutY="267.0" prefHeight="671.0" prefWidth="142.0" style="-fx-fixed-cell-size: 24;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <ListView fx:id="orderlist" editable="true" layoutY="267.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -178,9 +178,9 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <Button fx:id="completed" defaultButton="true" layoutX="228.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleCompleteOrder" prefHeight="35.0" prefWidth="591.0" styleClass="bump_bar" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="228.0" AnchorPane.rightAnchor="203.0" />
+                  <Button fx:id="completed" defaultButton="true" layoutX="247.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleCompleteOrder" prefHeight="35.0" prefWidth="572.0" styleClass="bump_bar" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="247.0" AnchorPane.rightAnchor="203.0" />
                   <Button fx:id="exit" layoutX="912.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleExitClick" prefHeight="35.0" prefWidth="64.0" styleClass="exit" text="Exit" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="8.0" />
-                  <Label fx:id="clock" alignment="TOP_CENTER" layoutX="38.0" layoutY="-2.0" styleClass="clock" stylesheets="@kitchenscr.css" text="clock" AnchorPane.bottomAnchor="-3.0" />
+                  <Label fx:id="clock" alignment="TOP_CENTER" layoutX="51.0" layoutY="-2.0" styleClass="clock" stylesheets="@kitchenscr.css" text="clock" AnchorPane.bottomAnchor="-3.0" />
                   <Button fx:id="recall" layoutX="842.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleRecallOrder" prefHeight="35.0" prefWidth="84.0" styleClass="recall" text="Recall" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="96.0" />
                   <Text layoutX="3.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="V1.62" />
 							
