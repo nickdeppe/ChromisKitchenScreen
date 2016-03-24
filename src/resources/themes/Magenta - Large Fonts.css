@@ -24,7 +24,7 @@
 
 /*******************************************************************************
  *                                                                             *
- * "Yellow on Black" contrast theme.                                           *
+ * "magenta on Black" contrast theme.                                           *
  *                                                                             *
  ******************************************************************************/
 
@@ -34,7 +34,7 @@
     -fx-control-inner-background: -fx-base;
     -fx-control-inner-background-alt: -fx-base;
     -fx-faint-focus-color: -fx-accent;
-    -fx-hover-base: yellow;
+    -fx-hover-base: magenta;
     -fx-pressed-base: derive(-fx-hover-base, -18%);
     -fx-box-border: -fx-hover-base;
     -fx-text-box-border: -fx-hover-base;
@@ -43,7 +43,7 @@
     -fx-light-text-color: -fx-hover-base;
     -fx-mark-color: ladder(
         -fx-color,
-        yellow 60%,
+        magenta 60%,
         derive(-fx-color,-63%) 31%
     );
     -fx-selection-bar-non-focused: derive(-fx-hover-base, -80%);

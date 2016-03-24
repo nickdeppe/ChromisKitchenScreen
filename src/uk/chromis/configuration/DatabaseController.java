@@ -250,8 +250,12 @@ public class DatabaseController implements Initializable {
             fileChooser.setTitle("Select .CSS theme file");
             FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("CSS Files (*.css)", "*.css");
             fileChooser.getExtensionFilters().add(extensionFilter);
-            System.out.println(getClass().getResource("resources.themes"));
+            File themeDir = new File("resources\\themes\\");
+            if ( themeDir.exists() )
+                fileChooser.setInitialDirectory(themeDir);
             File returnFile = fileChooser.showOpenDialog(((Node)e.getTarget()).getScene().getWindow()); 
+            if ( returnFile != null )
+                jtxtCSSFile.setText(returnFile.getAbsoluteFile().toString());
         });
 
 	
@@ -374,6 +378,8 @@ public class DatabaseController implements Initializable {
         jtxtMapExit.setKeyCodeCombination(keyComboExit);
         
         
+        jtxtCSSFile.setText(AppConfig.getInstance().getProperty("screen.themefile"));
+        
         //jtxtCSSFile.setText(AppConfig.getInstance().getProperty("screen.themefile"));
         
         dirty.resetDirty();
@@ -421,6 +427,8 @@ public class DatabaseController implements Initializable {
         AppConfig.getInstance().setProperty("keymap.complete", jtxtMapComplete.getKeyCodeCombination().toString());
         AppConfig.getInstance().setProperty("keymap.exit", jtxtMapExit.getKeyCodeCombination().toString());
         AppConfig.getInstance().setProperty("keymap.recall", jtxtMapRecall.getKeyCodeCombination().toString());
+        
+        AppConfig.getInstance().setProperty("screen.themefile", jtxtCSSFile.getText());
         
         AppConfig.getInstance().save();        
         
