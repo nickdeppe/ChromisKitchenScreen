@@ -42,22 +42,30 @@ public class DataLogicKitchen {
     private Query query;
 
     public DataLogicKitchen() {
+        init();
     }
 
-    public void init() {
+    public final void init() {
         session = HibernateUtil.getSessionFactory().openSession();
     }
 
     public List<String> readDistinctOrders() {
+        init();
         if (Boolean.valueOf(AppConfig.getInstance().getProperty("screen.allorders"))) {
             sql_query = "SELECT DISTINCT ORDERID, ORDERTIME FROM ORDERS ORDER BY ORDERTIME ";
         } else {
             sql_query = "SELECT DISTINCT ORDERID, ORDERTIME FROM ORDERS WHERE DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY ORDERTIME";
         }
-        SQLQuery query = HibernateUtil.getSessionFactory().openSession().createSQLQuery(sql_query);
-        query.addScalar("ORDERID");
-        List results = query.list();
-        results = new ArrayList<String>(new LinkedHashSet<String>(results));
+        // It may seem strange to start a transaction just for a select, but this is the
+        // only way I can figure out how to flush the cache to get most recent updates from
+        // database
+        session.beginTransaction();
+        SQLQuery sqlquery = session.createSQLQuery(sql_query);
+        sqlquery.addScalar("ORDERID");
+        List results = sqlquery.list();
+        results = new ArrayList<>(new LinkedHashSet<>(results));
+        session.getTransaction().commit();
+        session.close();
         return results;
     }
 
@@ -92,7 +100,7 @@ public class DataLogicKitchen {
     public void removeAllOrdersDisplay() {
         init();
         session.beginTransaction();
-        Query query = session.createQuery("DELETE FROM ORDERS WHERE DISPLAYID = :display");
+        query = session.createQuery("DELETE FROM ORDERS WHERE DISPLAYID = :display");
         query.setParameter("display", Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")));
         int result = query.executeUpdate();
         session.getTransaction().commit();
@@ -101,26 +109,37 @@ public class DataLogicKitchen {
 
     public List<Orders> selectByOrderId(String orderid) {
         if (Boolean.valueOf(AppConfig.getInstance().getProperty("screen.allorders"))) {
+<<<<<<< HEAD
 //            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' ORDER BY AUXILIARY ";
             sql_query = "SELECT * FROM ORDERS WHERE ORDERID = '" + orderid + "' ORDER BY SEQUENCE ";
         } else {
 //            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY AUXILIARY ";
+=======
+            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' ORDER BY SEQUENCE ";
+        } else {
+>>>>>>> origin/master
             sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY SEQUENCE ";
         }
-
-        SQLQuery query = HibernateUtil.getSessionFactory().openSession().createSQLQuery(sql_query);
-        query.addEntity(Orders.class);
-        List<Orders> results = query.list();
+        init();
+        // It may seem strange to start a transaction just for a select, but this is the
+        // only way I can figure out how to flush the cache to get most recent updates from
+        // database
+        session.beginTransaction();
+        SQLQuery sqlquery = session.createSQLQuery(sql_query);
+        sqlquery.addEntity(Orders.class);
+        List<Orders> results = sqlquery.list();
+        session.getTransaction().commit();
+        session.close();
         return results;
     }
 	 
 	 
 	 /* N Deppe Sept 2015 - Added to be able to create new order records for recall function */
 	 public void createOrder(Orders orderData) {
+        init();
 		String newId = UUID.randomUUID().toString();
-		sql_query = "INSERT INTO ORDERS (ID, ORDERID, QTY, DETAILS, ATTRIBUTES, NOTES, TICKETID, ORDERTIME, DISPLAYID, AUXILIARY)"
-					  + " VALUES ( :id, :orderid, :qty, :details, :attributes, :notes, :ticketid, :ordertime, :displayid, :auxiliaryid )";
-		init();
+		sql_query = "INSERT INTO ORDERS (ID, ORDERID, QTY, DETAILS, ATTRIBUTES, NOTES, TICKETID, ORDERTIME, DISPLAYID, AUXILIARY, SEQUENCE)"
+					  + " VALUES ( :id, :orderid, :qty, :details, :attributes, :notes, :ticketid, :ordertime, :displayid, :auxiliaryid, :sequence )";
 		session.beginTransaction();
 		query = session.createSQLQuery(sql_query);
 		query.setParameter("id", newId);
@@ -132,10 +151,11 @@ public class DataLogicKitchen {
 		query.setParameter("ticketid", orderData.getTicketid());
 		query.setParameter("ordertime", orderData.getOrdertime());
 		query.setParameter("displayid", orderData.getDisplayid());
-                query.setParameter("auxiliaryid", orderData.getAuxiliary());
+        query.setParameter("auxiliaryid", orderData.getAuxiliary());
+        query.setParameter("sequence", orderData.getSequence());
 		int result = query.executeUpdate();
 		session.getTransaction().commit();
-		session.close();		 
+        session.close();
 	}
 	 
 

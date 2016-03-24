@@ -70,6 +70,9 @@ public class Orders implements Serializable {
 
     @Column(name = "AUXILIARY")
     private Integer auxiliaryid;
+    
+    @Column(name = "SEQUENCE")
+    private Integer sequence;
 
     /**
      * @return the orderid
@@ -207,4 +210,13 @@ public class Orders implements Serializable {
         this.auxiliaryid = auxiliaryid;
     }
 
+    
+    public Integer getSequence() {
+        return sequence;
+    }
+    
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
+    }
+    
 }
