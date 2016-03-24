@@ -135,10 +135,18 @@ public class KitchenScr extends Application {
             userTheme = this.getClass().getResource("kitchenscr.css").toExternalForm();
             myScene.getStylesheets().add(userTheme);
         } else {
-            // Load the external css file
+            // Attempt to load the external css file
             File cssFile = new File(userTheme);
-            String fileName = cssFile.toURI().toString();
-            myScene.getStylesheets().add(fileName);
+            if ( cssFile.exists() ) {
+                // The file exists, use it
+                String fileName = cssFile.toURI().toString();
+                myScene.getStylesheets().add(fileName);
+            } else {
+                // The CSS file was not found, so revert to the default
+                userTheme = this.getClass().getResource("kitchenscr.css").toExternalForm();
+                myScene.getStylesheets().add(userTheme);
+            }
+                
         }
         
 

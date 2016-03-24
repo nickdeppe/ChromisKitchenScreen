@@ -27,9 +27,28 @@
             <column name="TICKETID" type="varchar(50)" />
             <column name="ORDERTIME" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP"/>         
             <column name="DISPLAYID" type="int" defaultValueNumeric="1"/> 
-            <column name="AUXILIARY" type="int" defaultValueNumeric="0"/>        
-            <column name="SEQUENCE"  type="int" />      
+            <column name="AUXILIARY" type="int" defaultValueNumeric="0"/>
         </createTable>
     </changeSet>
+    
+    
+    
+    
+    <!-- ******************************************************************************
+    ** N. Deppe Change - Fix issue with Chromis Kitchen Screen displaying products
+    ** and auxiliary products out of order
+    ******************************************************************************* -->
+    <changeSet author="N Deppe" id="Add SEQUENCE column to ORDERS table" dbms="postgresql, hypersql, hsqldb, mysql, oracle">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists columnName="SEQUENCE" tableName="ORDERS"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="ORDERS">
+            <column name="SEQUENCE" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>                                                   
+        </addColumn>                     
+    </changeSet>     
  
 </databaseChangeLog>

@@ -24,7 +24,7 @@
 
 /*******************************************************************************
  *                                                                             *
- * "magenta on Black" contrast theme.                                           *
+ * "Yellow on Black" contrast theme.                                           *
  *                                                                             *
  ******************************************************************************/
 
@@ -63,7 +63,7 @@
 }
 
 .clock {
-  -fx-font-size: 21pt;
+  -fx-font-size: 24pt;
   -fx-font-weight: bold;    
 }
 
@@ -80,9 +80,10 @@
 .recall, .exit {
     -fx-font-size: 17pt;
     -fx-font-weight: bold;
+	-fx-padding: 4px 8px 4px 8px;
 }
 
 .complete_button {
-	-fx-font-size: 20px;
+	-fx-font-size: 20pt;
 	-fx-font-weight: bold;
 }

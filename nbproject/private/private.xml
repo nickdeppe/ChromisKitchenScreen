@@ -2,21 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Chromis Apps">
-            <file>file:/D:/Projects/ChromisApps/Chromis%20KitchenScr/src/uk/chromis/kitchenscr/KitchenScr.java</file>
-        </group>
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/DatabaseController.java</file>
-            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/Configuration.java</file>
-            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/kitchenscr/KitchenscrController.java</file>
-            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/kitchentable.xml</file>
-            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/utils/DataLogicKitchen.java</file>
-            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/kitchenscr/KitchenScr.java</file>
-=======
-            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/kitchenscr/KitchenscrController.java</file>
-            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/utils/DataLogicKitchen.java</file>
->>>>>>> origin/master
+            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/resources/themes/Chromis%20Classic.css</file>
+            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/resources/themes/Magenta%20-%20Large%20Fonts.css</file>
+            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/DatabaseController.java</file>
+            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/kitchentable.xml</file>
+            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/forms/AppLocal.java</file>
+            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/resources/themes/Chromis%20Classic%20-%20Large%20Fonts.css</file>
+            <file>file:/C:/Users/cs_nd/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/kitchenscr/kitchenscr.css</file>
         </group>
     </open-files>
 </project-private>

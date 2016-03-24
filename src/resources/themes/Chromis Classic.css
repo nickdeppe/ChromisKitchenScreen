@@ -73,8 +73,31 @@
     -fx-font-weight: bold;
 }
 
+.clock {
+  -fx-font-size: 26pt;
+  -fx-font-weight: bold;    
+  -fx-padding: 2px;
+}
+
+
+.label.order_id, .order_timer {
+    -fx-font-size: 16pt;
+}
+
+.orders_waiting {
+    -fx-font-size: 14pt;
+}
+
 
 .recall, .exit {
     -fx-font: 18pt "Tahoma";
     -fx-font-weight: bold;
+    -fx-padding: 4px 8px 4px 8px;
+}
+
+
+.complete_button {
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+    -fx-padding: 2px;
 }
