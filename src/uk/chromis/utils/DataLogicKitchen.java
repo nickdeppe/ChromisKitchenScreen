@@ -101,9 +101,11 @@ public class DataLogicKitchen {
 
     public List<Orders> selectByOrderId(String orderid) {
         if (Boolean.valueOf(AppConfig.getInstance().getProperty("screen.allorders"))) {
-            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' ORDER BY AUXILIARY ";
+//            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' ORDER BY AUXILIARY ";
+            sql_query = "SELECT * FROM ORDERS WHERE ORDERID = '" + orderid + "' ORDER BY SEQUENCE ";
         } else {
-            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY AUXILIARY ";
+//            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY AUXILIARY ";
+            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY SEQUENCE ";
         }
 
         SQLQuery query = HibernateUtil.getSessionFactory().openSession().createSQLQuery(sql_query);

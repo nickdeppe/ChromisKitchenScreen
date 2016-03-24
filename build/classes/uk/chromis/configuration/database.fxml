@@ -7,7 +7,7 @@
 <?import javafx.collections.*?>
 <?import uk.chromis.customcontrol.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.chromis.configuration.DatabaseController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.chromis.configuration.DatabaseController">
     <children>
         <Pane prefHeight="500.0" prefWidth="600.0" stylesheets="@database.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -91,7 +91,7 @@
                               <TextField fx:id="jtxtClockFormat" layoutX="157.0" layoutY="14.0" prefHeight="25.0" prefWidth="122.0" />
                               <Label layoutX="14.0" layoutY="55.0" text="Keep items in history" />
                               <Spinner fx:id="historyCount" editable="true" layoutX="157.0" layoutY="52.0" prefHeight="25.0" prefWidth="61.0" />
-                              <ChoiceBox fx:id="jchcExitAction" layoutX="157.0" layoutY="90.0" prefHeight="25.0" prefWidth="401.0">
+                              <ChoiceBox fx:id="jchcExitAction" layoutX="157.0" layoutY="90.0" prefHeight="25.0" prefWidth="400.0">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
                                         <String fx:value="Exit, do not perform any additional action" />
@@ -110,6 +110,9 @@
                               <TextField fx:id="jtxtHeight" layoutX="353.0" layoutY="131.0" prefHeight="25.0" prefWidth="53.0" text="768" />
                               <Label layoutX="156.0" layoutY="135.0" prefHeight="17.0" prefWidth="41.0" text="Width" />
                               <Label layoutX="304.0" layoutY="135.0" text="Height" />
+                              <Label layoutX="14.0" layoutY="176.0" text="Theme CSS File" />
+                              <TextField fx:id="jtxtCSSFile" layoutX="157.0" layoutY="172.0" prefHeight="25.0" prefWidth="330.0" />
+                              <Button fx:id="jbtnChooseCSS" layoutX="499.0" layoutY="172.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Choose..." />
                            </children>
                         </AnchorPane>
                     </content>

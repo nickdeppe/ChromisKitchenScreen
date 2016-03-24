@@ -45,13 +45,14 @@ public class Configuration extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("database.fxml"));      
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("database.fxml"));
+        Parent root = (Parent)loader.load();
+        DatabaseController controller = (DatabaseController)loader.getController();
         primaryStage.setTitle("Database Configuration - v" + AppLocal.APP_VERSION);
         primaryStage.setScene(new Scene(root, 600, 500));
         setUserAgentStylesheet(STYLESHEET_MODENA);
-
         primaryStage.show();
-
+        
     }
 
 }

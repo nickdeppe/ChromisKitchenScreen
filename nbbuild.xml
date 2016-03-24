@@ -10,6 +10,18 @@
 <project name="Chromis_Kitchen_Scr" default="default" basedir=".">
     <description>Builds, tests, and runs the project Chromis_Kitchen_Scr.</description>
     <import file="nbproject/build-impl.xml"/>
+	
+	
+    <target name="-post-compile"> 
+		<mkdir dir="${dist.dir}/resources"/>
+        <copy todir="${dist.dir}/resources">
+			<fileset dir="${basedir}/src/resources">
+				<include name="**/**"/>
+			</fileset>
+		</copy>
+    </target> 	
+	
+	
     <!--
 
     There exist several targets which are by default empty and which can be 

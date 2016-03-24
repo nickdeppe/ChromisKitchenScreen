@@ -5,5 +5,13 @@
         <group name="Chromis Apps">
             <file>file:/D:/Projects/ChromisApps/Chromis%20KitchenScr/src/uk/chromis/kitchenscr/KitchenScr.java</file>
         </group>
+        <group>
+            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/DatabaseController.java</file>
+            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/Configuration.java</file>
+            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/kitchenscr/KitchenscrController.java</file>
+            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/configuration/kitchentable.xml</file>
+            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/utils/DataLogicKitchen.java</file>
+            <file>file:/C:/Users/Nick%20Deppe/Documents/GitHub/ChromisKitchenScreen/src/uk/chromis/kitchenscr/KitchenScr.java</file>
+        </group>
     </open-files>
 </project-private>
