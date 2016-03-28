@@ -15,7 +15,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <SplitPane dividerPositions="0.8558823529411764" layoutX="511.0" layoutY="355.0" prefHeight="710.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.8558823529411764" layoutX="511.0" layoutY="355.0" prefHeight="710.0" prefWidth="1022.0" styleClass="screen_splitpane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
@@ -31,7 +31,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <SplitPane fx:id="order0" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                                    <SplitPane fx:id="order0" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -41,14 +41,14 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="0" minHeight="0.0" minWidth="0.0" styleClass="order_detail">
                                              <children>
-                                                <ListView fx:id="order0items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="order0items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets></AnchorPane>
                                       </items>
                                     </SplitPane>                                     
-                                    <SplitPane fx:id="order1" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.columnIndex="1">
+                                    <SplitPane fx:id="order1" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane" GridPane.columnIndex="1">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -58,11 +58,11 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="1" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="order_detail">
                                              <children>
-                                                <ListView fx:id="order1items" layoutX="6.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="order1items" layoutX="6.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>
-                                    <SplitPane fx:id="order2" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.columnIndex="2">
+                                    <SplitPane fx:id="order2" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane" GridPane.columnIndex="2">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -72,11 +72,11 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="2" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="order_detail">
                                              <children>
-                                                <ListView fx:id="order2items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="order2items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>      
-                                     <SplitPane fx:id="order3" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.columnIndex="3">
+                                     <SplitPane fx:id="order3" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane" GridPane.columnIndex="3">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -86,13 +86,13 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="3" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="order_detail">
                                              <children>
-                                                <ListView fx:id="order3items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="order3items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>                                   
  
                                                                
-                                    <SplitPane fx:id="order4" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.rowIndex="1">
+                                    <SplitPane fx:id="order4" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane" GridPane.rowIndex="1">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -102,11 +102,11 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="4" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="order_detail">
                                              <children>
-                                                <ListView fx:id="order4items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="order4items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>                                     
-                                    <SplitPane fx:id="order5" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <SplitPane fx:id="order5" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -116,11 +116,11 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="5" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="order_detail">
                                              <children>
-                                                <ListView fx:id="order5items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="order5items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>
-                                    <SplitPane fx:id="order6" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <SplitPane fx:id="order6" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -130,11 +130,11 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="6" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="order_detail">
                                              <children>
-                                                                   <ListView fx:id="order6items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                   <ListView fx:id="order6items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>      
-                                     <SplitPane fx:id="order7" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                     <SplitPane fx:id="order7" dividerPositions="0.08238636363636363" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="order_pane" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                       <items>
                                         <AnchorPane styleClass="order_header">
                                              <children>
@@ -144,7 +144,7 @@
                                           </AnchorPane>
                                         <AnchorPane fx:id="7" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="order_detail">
                                              <children>
-                                                <ListView fx:id="order7items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <ListView fx:id="order7items" layoutX="8.0" layoutY="77.0" prefHeight="320.0" prefWidth="216.0" styleClass="order_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>                                                                                                                                                                             
@@ -162,7 +162,7 @@
                                        </children></AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="waiting_detail">
                                        <children>
-                                          <ListView fx:id="orderlist" editable="true" layoutY="267.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <ListView fx:id="orderlist" editable="true" layoutY="267.0" styleClass="waiting_listview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -180,7 +180,7 @@
                   <Label fx:id="clock" alignment="TOP_CENTER" layoutX="50.0" layoutY="4.0" styleClass="clock" text="clock" AnchorPane.leftAnchor="50.0" />
                   <Button fx:id="recall" layoutX="783.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleRecallOrder" styleClass="recall" text="Recall" AnchorPane.rightAnchor="128.0" />
 
-                  <Text layoutX="3.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="V1.7" />
+                  <Text layoutX="3.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="version_number" text="V1.7" />
 							
                </children></AnchorPane>
         </items>

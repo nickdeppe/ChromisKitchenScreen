@@ -1,0 +1,104 @@
+/*
+ Chromis POS  - The New Face of Open Source POS
+ Copyright (c) 2015 (John Lewis) Chromis.co.uk
+
+ http://www.chromis.co.uk
+
+ kitchen Screen v1.5
+
+ This file is part of chromis & its associated programs
+
+ chromis is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ chromis is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with chromis.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*******************************************************************************
+ *                                                                             *
+ * "Yellow on Black" contrast theme.                                           *
+ *                                                                             *
+ ******************************************************************************/
+
+.root {
+    -fx-base: black;
+    -fx-background: -fx-base;
+    -fx-control-inner-background: -fx-base;
+    -fx-control-inner-background-alt: -fx-base;
+    -fx-faint-focus-color: -fx-accent;
+    -fx-hover-base: white;
+    -fx-pressed-base: derive(-fx-hover-base, -18%);
+    -fx-box-border: -fx-hover-base;
+    -fx-text-box-border: -fx-hover-base;
+    -fx-shadow-highlight-color: -fx-base;
+    -fx-outer-border: -fx-hover-base;
+    -fx-light-text-color: -fx-hover-base;
+    -fx-mark-color: ladder(
+        -fx-color,
+        white 60%,
+        derive(-fx-color,-63%) 31%
+    );
+    -fx-selection-bar-non-focused: derive(-fx-hover-base, -80%);
+    -fx-contrast-color: white;
+    -fx-font-size: 16pt;
+    -fx-font-family: "Courier New";
+}
+
+
+.list-view {
+}
+
+.list-cell 
+{
+  -fx-font-size: 16pt;
+  -fx-font-weight: bold;
+}
+.list-cell:even {
+	-fx-background-color: #0F0F0F;
+}
+.list-cell:odd {
+	-fx-background-color: #1F1F1F;
+}
+
+.clock {
+  -fx-font-size: 24pt;
+  -fx-font-weight: bold;    
+}
+
+
+.label.order_id, .order_timer {
+    -fx-font-size: 17pt;
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+
+}
+
+.orders_waiting {
+    -fx-font-size: 17pt;
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+}
+
+
+.recall, .exit {
+    -fx-font-size: 17pt;
+    -fx-font-weight: bold;
+	-fx-padding: 4px 8px 4px 8px;
+}
+
+.complete_button {
+	-fx-font-size: 20pt;
+	-fx-font-weight: bold;
+}
+
+.order_header, .waiting_header {
+	-fx-background-color: #BBBBBB;
+}
