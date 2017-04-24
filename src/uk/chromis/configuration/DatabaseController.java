@@ -88,6 +88,14 @@ public class DatabaseController implements Initializable {
     public TextField jtxtClockFormat;
     public Spinner historyCount;
     public CheckBox jSecondscr;
+    public CheckBox jchkPlaySound;
+    public TextField jtxtSoundFile;
+    public Button jbtnChooseSound;
+    
+    @FXML
+    public ChoiceBox jchcSoundAction;
+    private Integer selectedSoundActionIndex = null;
+    
     
     private final DirtyManager dirty = new DirtyManager();
     private String display;
@@ -154,7 +162,7 @@ public class DatabaseController implements Initializable {
         jtxtClockFormat.textProperty().addListener(dirty);
         historyCount.valueProperty().addListener(dirty);
         jchcExitAction.valueProperty().addListener(dirty);
-        //jtxtCSSFile.textProperty().addListener(dirty);
+        jtxtCSSFile.textProperty().addListener(dirty);
         jtxtMapSelOrd1.textProperty().addListener(dirty);
         jtxtMapSelOrd2.textProperty().addListener(dirty);
         jtxtMapSelOrd3.textProperty().addListener(dirty);
@@ -167,6 +175,9 @@ public class DatabaseController implements Initializable {
         jtxtMapRecall.textProperty().addListener(dirty);
         jtxtMapExit.textProperty().addListener(dirty);        
         jSecondscr.selectedProperty().addListener(dirty);
+        jchkPlaySound.selectedProperty().addListener(dirty);
+        jtxtSoundFile.textProperty().addListener(dirty);
+        jchcSoundAction.valueProperty().addListener(dirty);
         
         jcboDBDriver.setOnAction(e -> {
             if ("Apache Derby Client/Server".equals(jcboDBDriver.getValue())) {
@@ -242,7 +253,23 @@ public class DatabaseController implements Initializable {
                 }
             }
         });
+
         
+        jchcSoundAction.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (oldValue != newValue) {
+                    selectedSoundActionIndex = newValue.intValue();
+                    switch(newValue.intValue()) {
+                        case 0:  // First order is sent
+                            break;
+                        case 1:  // Any order is sent
+                            break;
+                    }
+                }
+            }
+        });
+
         
         
         jbtnChooseCSS.setOnAction((final ActionEvent e) -> {
@@ -257,7 +284,29 @@ public class DatabaseController implements Initializable {
             if ( returnFile != null )
                 jtxtCSSFile.setText(returnFile.getAbsoluteFile().toString());
         });
-
+        
+        
+        jchkPlaySound.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                jtxtSoundFile.setDisable(!newValue);
+                jbtnChooseSound.setDisable(!newValue);
+                jchcSoundAction.setDisable(!newValue);
+            }
+        });        
+        
+        jbtnChooseSound.setOnAction((final ActionEvent e) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Sound file");
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Sound Files (*.mp3,*.wav)", "*.mp3", "*.wav");
+            fileChooser.getExtensionFilters().add(extensionFilter);
+            File soundDir = new File("resources\\sounds\\");
+            if ( soundDir.exists() )
+                fileChooser.setInitialDirectory(soundDir);
+            File returnFile = fileChooser.showOpenDialog(((Node)e.getTarget()).getScene().getWindow()); 
+            if ( returnFile != null )
+                jtxtSoundFile.setText(returnFile.getAbsoluteFile().toString());
+        });
 	
         loadProperties();
 
@@ -380,7 +429,39 @@ public class DatabaseController implements Initializable {
         
         jtxtCSSFile.setText(AppConfig.getInstance().getProperty("screen.themefile"));
         
-        //jtxtCSSFile.setText(AppConfig.getInstance().getProperty("screen.themefile"));
+        try {
+            jchkPlaySound.setSelected(Boolean.parseBoolean(AppConfig.getInstance().getProperty("misc.playsound")));
+        } catch (Exception ex) {
+            jchkPlaySound.setSelected(false);
+        }
+        
+        if ( jchkPlaySound.isSelected() ) {
+            jtxtSoundFile.setDisable(false);
+            jbtnChooseSound.setDisable(false);
+        } else {
+            jtxtSoundFile.setDisable(true);
+            jbtnChooseSound.setDisable(true);
+        }
+
+        jtxtSoundFile.setText(AppConfig.getInstance().getProperty("misc.soundfile"));
+
+        
+        String soundAction = AppConfig.getInstance().getProperty("misc.soundaction");
+        if (soundAction == null || "".equals(soundAction))
+            jchcSoundAction.getSelectionModel().select(1);
+        else {
+            try {
+                jchcSoundAction.getSelectionModel().select(Integer.parseInt(soundAction));
+            } catch (Exception ex) {
+                jchcSoundAction.getSelectionModel().select(1);
+            }
+        }
+        
+        try {
+            
+        } catch (Exception ex) {
+            
+        }
         
         dirty.resetDirty();
         
@@ -414,6 +495,10 @@ public class DatabaseController implements Initializable {
             AppConfig.getInstance().setProperty("misc.exitaction", selectedExitActionIndex.toString());
         }
         
+        if (selectedSoundActionIndex != null) {
+            AppConfig.getInstance().setProperty("misc.soundaction", selectedSoundActionIndex.toString());
+        }
+        
         // Save the keyboard mappings
         String testString = jtxtMapSelOrd1.getKeyCodeCombination().toString();
         AppConfig.getInstance().setProperty("keymap.selord1", jtxtMapSelOrd1.getKeyCodeCombination().toString());
@@ -430,6 +515,14 @@ public class DatabaseController implements Initializable {
         
         AppConfig.getInstance().setProperty("screen.themefile", jtxtCSSFile.getText());
         
+        if ( jchkPlaySound.isSelected() ) {
+            AppConfig.getInstance().setProperty("misc.playsound", "true" );
+        } else {
+            AppConfig.getInstance().setProperty("misc.playsound", "false" );
+        }
+
+        AppConfig.getInstance().setProperty("misc.soundfile", jtxtSoundFile.getText());
+
         AppConfig.getInstance().save();        
         
         dirty.resetDirty();

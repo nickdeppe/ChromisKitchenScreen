@@ -48,7 +48,7 @@
                               <Spinner fx:id="displayNumber" editable="true" layoutX="155.0" layoutY="212.0" prefHeight="25.0" prefWidth="61.0" />
                               <Label layoutX="12.0" layoutY="117.0" prefHeight="17.0" prefWidth="130.0" text="Hibernate Dialect" />
                               <TextField fx:id="jtxtDialect" layoutX="155.0" layoutY="113.0" prefHeight="25.0" prefWidth="330.0" />
-                              <CheckBox fx:id="jSecondscr" layoutX="155.0" layoutY="262.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="228.0" text="Use secondary screen if available" />
+                              <CheckBox fx:id="jSecondscr" layoutX="155.0" layoutY="262.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="317.0" text="Use secondary screen if available" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -112,7 +112,22 @@
                               <Label layoutX="304.0" layoutY="135.0" text="Height" />
                               <Label layoutX="14.0" layoutY="176.0" text="Theme CSS File" />
                               <TextField fx:id="jtxtCSSFile" layoutX="157.0" layoutY="172.0" prefHeight="25.0" prefWidth="330.0" />
-                              <Button fx:id="jbtnChooseCSS" layoutX="499.0" layoutY="172.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Choose..." />
+                              <Button fx:id="jbtnChooseCSS" layoutX="499.0" layoutY="172.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Choose..." />
+                              <Label layoutX="17.0" layoutY="251.0" text="Sound File" />
+                              <CheckBox fx:id="jchkPlaySound" layoutX="16.0" layoutY="213.0" mnemonicParsing="false" text="Play sound when" />
+                              <TextField fx:id="jtxtSoundFile" layoutX="99.0" layoutY="246.0" prefHeight="25.0" prefWidth="386.0" />
+                              <Button fx:id="jbtnChooseSound" layoutX="499.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Choose..." />
+                              <ChoiceBox fx:id="jchcSoundAction" layoutX="162.0" layoutY="211.0" prefHeight="25.0" prefWidth="255.0">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="First order is sent" />
+                                        <String fx:value="Any order is sent" />
+                                    </FXCollections>            
+                                </items>
+                                <value>
+                                    <String fx:value="First order is sent" /> 
+                                </value>
+										</ChoiceBox>
                            </children>
                         </AnchorPane>
                     </content>

@@ -24,6 +24,7 @@
 package uk.chromis.kitchenscr;
 
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +50,8 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import uk.chromis.dto.Orders;
 import uk.chromis.forms.AppConfig;
 import uk.chromis.utils.DataLogicKitchen;
@@ -106,6 +109,13 @@ public class KitchenscrController implements Initializable {
     private List<Orders> orders;
     private double xOffset = 0;
     private double yOffset = 0;
+    
+    // N. Deppe April 2017 - Added to keep track of the current order count
+    // for playing sound when new order is sent
+    private static Integer orderCount = 0;
+    private static boolean playSound;
+    private static String soundFile;
+    private static Integer soundAction;
 
     public static HashMap<Integer, Object> idLabels = new HashMap<>();
     public static HashMap<Integer, String> ticketIds = new HashMap<>();
@@ -190,6 +200,20 @@ public class KitchenscrController implements Initializable {
         }
         // Recall button is initially not visible.  It is visible when an order is closed.
         displayRecallButton();
+ 
+        // N Deppe April 2017 - Get play sound property
+        try {
+            playSound = Boolean.parseBoolean(AppConfig.getInstance().getProperty("misc.playsound"));
+        } catch (Exception ex ) {
+            playSound = false;
+        }
+        soundFile = AppConfig.getInstance().getProperty("misc.soundfile");
+        try {
+            soundAction = Integer.parseInt(AppConfig.getInstance().getProperty("misc.soundaction"));
+        } catch (Exception ex ) {
+            soundAction = 1;
+        }
+        
 
         new javax.swing.Timer(1000, new PrintTimeAction()).start();
         new javax.swing.Timer(5000, new updateDisplay()).start();
@@ -309,6 +333,7 @@ public class KitchenscrController implements Initializable {
                 closedOrders.push(selectedOrder);  // add to closed order history
                 orderDataList.remove(selectedOrderNum);
                 clearSelectedOrder();
+                --orderCount;
             }
             buildOrderPanels();
             displayRecallButton();
@@ -337,6 +362,7 @@ public class KitchenscrController implements Initializable {
                     dl_kitchen.createOrder(currOrder);
                 }
                 clearSelectedOrder();
+                ++orderCount;
                 buildOrderPanels();
             }
             displayRecallButton();
@@ -427,6 +453,24 @@ public class KitchenscrController implements Initializable {
         distinct = dl_kitchen.readDistinctOrders();
         KitchenscrController.orderDataList.clear();
 
+        // N Deppe April 2017 - Check if a new order has come in
+        if (playSound) {
+            if ( soundAction == 0 ) { // First order only
+                if ( orderCount == 0 && distinct.size() > 0 ) {
+                    Media sound = new Media(new File(soundFile).toURI().toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                    mediaPlayer.play();
+                }
+            } else if ( soundAction == 1 ) { // Any order
+                if (orderCount != distinct.size()) {
+                    Media sound = new Media(new File(soundFile).toURI().toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                    mediaPlayer.play();
+                }
+            }
+            orderCount = distinct.size();
+        }
+        
         // Populate the panel up to 8 orders
         for (int j = 0; (j < 8 && j < distinct.size()); j++) {
 

@@ -180,7 +180,7 @@
                   <Label fx:id="clock" alignment="TOP_CENTER" layoutX="50.0" layoutY="4.0" styleClass="clock" text="clock" AnchorPane.leftAnchor="50.0" />
                   <Button fx:id="recall" layoutX="783.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleRecallOrder" styleClass="recall" text="Recall" AnchorPane.rightAnchor="128.0" />
 
-                  <Text layoutX="3.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="version_number" text="V1.7" />
+                  <Text layoutX="3.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="version_number" text="V1.8" />
 							
                </children></AnchorPane>
         </items>
