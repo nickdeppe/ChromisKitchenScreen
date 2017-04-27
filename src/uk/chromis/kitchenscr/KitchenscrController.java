@@ -24,8 +24,6 @@
 package uk.chromis.kitchenscr;
 
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,13 +48,14 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaException;
 import uk.chromis.dto.Orders;
 import uk.chromis.forms.AppConfig;
 import uk.chromis.utils.DataLogicKitchen;
 import uk.chromis.utils.FixedStack;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 /**
  * FXML Controller class
@@ -191,7 +190,7 @@ public class KitchenscrController implements Initializable {
         int stackSize;
         try {
             stackSize = Integer.parseInt(AppConfig.getInstance().getProperty("recall.historycount"));
-        } catch (Exception e) {
+        } catch ( NumberFormatException e ) {
             stackSize = 10;
         }
         if (stackSize >= 1) {
@@ -211,7 +210,7 @@ public class KitchenscrController implements Initializable {
         soundFile = AppConfig.getInstance().getProperty("misc.soundfile");
         try {
             soundAction = Integer.parseInt(AppConfig.getInstance().getProperty("misc.soundaction"));
-        } catch (Exception ex ) {
+        } catch ( NumberFormatException e ) {
             soundAction = 1;
         }
         
@@ -688,13 +687,16 @@ public class KitchenscrController implements Initializable {
 
 	 /* N Deppe April 2017 - Added ability to play a sound file */
 	 private void playSound(String filePath) {
-		 try {
-				Media sound = new Media(new File(filePath).toURI().toString());
-				MediaPlayer mediaPlayer = new MediaPlayer(sound);
-				mediaPlayer.play();
-		 } catch (MediaException e) {
+
+		BasicPlayer player = new BasicPlayer();
+		try {
+			URL fileURL = new URL("file:///" + filePath);
+			 player.open(fileURL);
+			 player.play();
+		} catch ( BasicPlayerException | MalformedURLException e) {
 			 e.printStackTrace();
-		 }
+		}
+
 	 }
 
 }
