@@ -52,6 +52,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaException;
 import uk.chromis.dto.Orders;
 import uk.chromis.forms.AppConfig;
 import uk.chromis.utils.DataLogicKitchen;
@@ -457,15 +458,11 @@ public class KitchenscrController implements Initializable {
         if (playSound) {
             if ( soundAction == 0 ) { // First order only
                 if ( orderCount == 0 && distinct.size() > 0 ) {
-                    Media sound = new Media(new File(soundFile).toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                    mediaPlayer.play();
+						 playSound(soundFile);
                 }
             } else if ( soundAction == 1 ) { // Any order
                 if (orderCount != distinct.size()) {
-                    Media sound = new Media(new File(soundFile).toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                    mediaPlayer.play();
+						 playSound(soundFile);
                 }
             }
             orderCount = distinct.size();
@@ -687,5 +684,17 @@ public class KitchenscrController implements Initializable {
             updateButtonText("");
         }
     }
+
+
+	 /* N Deppe April 2017 - Added ability to play a sound file */
+	 private void playSound(String filePath) {
+		 try {
+				Media sound = new Media(new File(filePath).toURI().toString());
+				MediaPlayer mediaPlayer = new MediaPlayer(sound);
+				mediaPlayer.play();
+		 } catch (MediaException e) {
+			 e.printStackTrace();
+		 }
+	 }
 
 }
