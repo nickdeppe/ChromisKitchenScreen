@@ -24,6 +24,8 @@
 package uk.chromis.kitchenscr;
 
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,10 +54,12 @@ import uk.chromis.dto.Orders;
 import uk.chromis.forms.AppConfig;
 import uk.chromis.utils.DataLogicKitchen;
 import uk.chromis.utils.FixedStack;
-import java.net.MalformedURLException;
 import java.net.URL;
-import javazoom.jlgui.basicplayer.BasicPlayer;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * FXML Controller class
@@ -67,6 +71,7 @@ public class KitchenscrController implements Initializable {
     public Button exit;
     public Button completed;
     public Button recall;
+    public Button accept;
     public Label clock;
 
     public Label order0id;
@@ -113,9 +118,12 @@ public class KitchenscrController implements Initializable {
     // N. Deppe April 2017 - Added to keep track of the current order count
     // for playing sound when new order is sent
     private static Integer orderCount = 0;
-    private static boolean playSound;
-    private static String soundFile;
-    private static Integer soundAction;
+    private static boolean playFirst;
+    private static boolean playSubsequent;
+    private static String soundFirstFile;
+    private static String soundSubsequentFile;
+    private static boolean playFirstRepeat;
+    private static boolean playSubsequentRepeat;
 
     public static HashMap<Integer, Object> idLabels = new HashMap<>();
     public static HashMap<Integer, String> ticketIds = new HashMap<>();
@@ -147,6 +155,12 @@ public class KitchenscrController implements Initializable {
     /* N Deppe Sept 2015 - Added to keep track of scene for keyboard interaction */
     private Scene thisScene;
 
+    /* N Deppe April 2017 - Added to play sound */
+    private File audioFile;
+    private Clip clip;
+    private AudioInputStream inputStream;
+    
+    
     private class PrintTimeAction implements ActionListener {
 
         @Override
@@ -200,18 +214,43 @@ public class KitchenscrController implements Initializable {
         }
         // Recall button is initially not visible.  It is visible when an order is closed.
         displayRecallButton();
- 
-        // N Deppe April 2017 - Get play sound property
+
+        
+        
+            // N Deppe April 2017 - Get play sound property
         try {
-            playSound = Boolean.parseBoolean(AppConfig.getInstance().getProperty("misc.playsound"));
-        } catch (Exception ex ) {
-            playSound = false;
+            this.clip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            ex.printStackTrace();
         }
-        soundFile = AppConfig.getInstance().getProperty("misc.soundfile");
+        
         try {
-            soundAction = Integer.parseInt(AppConfig.getInstance().getProperty("misc.soundaction"));
-        } catch ( NumberFormatException e ) {
-            soundAction = 1;
+            playFirst = Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.playfirst"));
+        } catch (Exception ex ) {
+            playFirst = false;
+        }
+        soundFirstFile = AppConfig.getInstance().getProperty("sound.firstfile");
+        try {
+            playFirstRepeat = Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.repeatfirst"));
+        } catch (Exception ex ) {
+            playFirstRepeat = false;
+        }
+        try {
+            playSubsequent = Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.playsubsequent"));
+        } catch (Exception ex ) {
+            playSubsequent = false;
+        }
+        soundSubsequentFile = AppConfig.getInstance().getProperty("sound.subsequentfile");
+        try {
+            playSubsequentRepeat = Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.repeatsubsequent"));
+        } catch (Exception ex ) {
+            playSubsequentRepeat = false;
+        }
+        if ("".equals(soundFirstFile)) {
+            playFirst = false;
+            playSubsequent = false;
+        } else if ("".equals(soundSubsequentFile)) {
+            playSubsequent = false;
         }
         
 
@@ -337,6 +376,7 @@ public class KitchenscrController implements Initializable {
             }
             buildOrderPanels();
             displayRecallButton();
+            handleAcceptOrder();
         }
     }
 
@@ -454,18 +494,12 @@ public class KitchenscrController implements Initializable {
         KitchenscrController.orderDataList.clear();
 
         // N Deppe April 2017 - Check if a new order has come in
-        if (playSound) {
-            if ( soundAction == 0 ) { // First order only
-                if ( orderCount == 0 && distinct.size() > 0 ) {
-						 playSound(soundFile);
-                }
-            } else if ( soundAction == 1 ) { // Any order
-                if (orderCount != distinct.size()) {
-						 playSound(soundFile);
-                }
-            }
-            orderCount = distinct.size();
+        if (playFirst && orderCount == 0 && distinct.size() > 0 ) {
+            playSoundFirst( playFirstRepeat );
+        } else if (playSubsequent && orderCount < distinct.size()) {
+            playSoundSubsequent( playSubsequentRepeat );
         }
+        orderCount = distinct.size();
         
         // Populate the panel up to 8 orders
         for (int j = 0; (j < 8 && j < distinct.size()); j++) {
@@ -538,19 +572,6 @@ public class KitchenscrController implements Initializable {
 
         if (myScene != null) {
 
-            // Get the key codes
-            final String strKeyComboSelOrd1 = AppConfig.getInstance().getProperty("keymap.selord1");
-            final String strKeyComboSelOrd2 = AppConfig.getInstance().getProperty("keymap.selord2");
-            final String strKeyComboSelOrd3 = AppConfig.getInstance().getProperty("keymap.selord3");
-            final String strKeyComboSelOrd4 = AppConfig.getInstance().getProperty("keymap.selord4");
-            final String strKeyComboSelOrd5 = AppConfig.getInstance().getProperty("keymap.selord5");
-            final String strKeyComboSelOrd6 = AppConfig.getInstance().getProperty("keymap.selord6");
-            final String strKeyComboSelOrd7 = AppConfig.getInstance().getProperty("keymap.selord6");
-            final String strKeyComboSelOrd8 = AppConfig.getInstance().getProperty("keymap.selord7");
-            final String strKeyComboComplete = AppConfig.getInstance().getProperty("keymap.complete");
-            final String strKeyComboRecall = AppConfig.getInstance().getProperty("keymap.recall");
-            final String strKeyComboExit = AppConfig.getInstance().getProperty("keymap.exit");
-
             // Set the event handler for the scene
             myScene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
@@ -566,6 +587,7 @@ public class KitchenscrController implements Initializable {
                 private KeyCodeCombination keyComboSelOrd8;
                 private KeyCodeCombination keyComboComplete;
                 private KeyCodeCombination keyComboRecall;
+                private KeyCodeCombination keyComboAccept;
                 private KeyCodeCombination keyComboExit;
 
                 @Override
@@ -578,7 +600,6 @@ public class KitchenscrController implements Initializable {
                         } catch (Exception ex) {
                             keyComboSelOrd1 = new KeyCodeCombination(KeyCode.DIGIT1);
                         }
-                        System.out.println("Key pressed = " + keyComboSelOrd1);
                         try {
                             keyComboSelOrd2 = (KeyCodeCombination) KeyCodeCombination.valueOf(AppConfig.getInstance().getProperty("keymap.selord2"));
                         } catch (Exception ex) {
@@ -625,6 +646,11 @@ public class KitchenscrController implements Initializable {
                             keyComboRecall = new KeyCodeCombination(KeyCode.R);
                         }
                         try {
+                            keyComboAccept = (KeyCodeCombination) KeyCodeCombination.valueOf(AppConfig.getInstance().getProperty("keymap.accept"));
+                        } catch (Exception ex) {
+                            keyComboAccept = new KeyCodeCombination(KeyCode.A);
+                        }
+                        try {
                             keyComboExit = (KeyCodeCombination) KeyCodeCombination.valueOf(AppConfig.getInstance().getProperty("keymap.exit"));
                         } catch (Exception ex) {
                             keyComboExit = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.ModifierValue.UP, KeyCombination.ModifierValue.DOWN, KeyCombination.ModifierValue.UP, KeyCombination.ModifierValue.UP, KeyCombination.ModifierValue.ANY);
@@ -653,6 +679,8 @@ public class KitchenscrController implements Initializable {
                         handleCompleteOrder();
                     } else if (keyComboRecall.match(event)) {
                         handleRecallOrder();
+                    } else if (keyComboAccept.match(event)) {
+                        handleAcceptOrder();
                     } else if (keyComboExit.match(event)) {
                         handleExitClick();
                     }
@@ -682,21 +710,76 @@ public class KitchenscrController implements Initializable {
             selectedOrderNum = null;
             updateButtonText("");
         }
+        // Accept the order if selected
+        handleAcceptOrder();
     }
 
 
 	 /* N Deppe April 2017 - Added ability to play a sound file */
-	 private void playSound(String filePath) {
+	 private void playSoundFirst(boolean repeat) {
+         
+         if ( !clip.isRunning() ) {
 
-		BasicPlayer player = new BasicPlayer();
-		try {
-			URL fileURL = new URL("file:///" + filePath);
-			 player.open(fileURL);
-			 player.play();
-		} catch ( BasicPlayerException | MalformedURLException e) {
-			 e.printStackTrace();
-		}
+             if ( clip.isOpen() ) {
+                 clip.close();
+             }
+            try {
+                this.audioFile = new File(soundFirstFile);
+                this.inputStream = AudioSystem.getAudioInputStream(audioFile);
+                this.clip.open(inputStream);
+            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+                playFirst = false;
+                System.err.println(e.getMessage());
+                return;
+            }
 
-	 }
+            if ( repeat ) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+                accept.setVisible(true);
+            } else {
+                clip.start();
+            }
+         }
+     }
 
+     
+
+	 /* N Deppe April 2017 - Added ability to play a sound file */
+	 private void playSoundSubsequent(boolean repeat) {
+         
+         if ( !clip.isRunning() ) {
+             if ( clip.isOpen() ) {
+                 clip.close();
+             }
+            try {
+                this.audioFile = new File(soundSubsequentFile);
+                this.inputStream = AudioSystem.getAudioInputStream(audioFile);
+                this.clip.open(inputStream);
+            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+                playSubsequent = false;
+                System.err.println(e.getMessage());
+                return;
+            }
+
+            if ( repeat ) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+                accept.setVisible(true);
+            } else {
+                clip.start();
+            }
+         }
+     }
+     
+     
+     
+     public void handleAcceptOrder() {
+         
+         clip.stop();
+         
+         accept.setVisible(false);
+         
+     }
+     
+     
+     
 }

@@ -18,7 +18,7 @@
             <Label layoutX="30.0" layoutY="470.0" prefHeight="17.0" prefWidth="211.0" text="www.chromis.co.uk" />
             <TabPane prefHeight="423.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Database">
+                <Tab closable="false" text="Database">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="287.0" prefWidth="503.0">
                            <children>
@@ -53,7 +53,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Keyboard Mappings">
+                <Tab closable="false" text="Keyboard Mappings">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="282.0" prefWidth="574.0">
                            <children>
@@ -67,7 +67,8 @@
                               <Label layoutX="20.0" layoutY="230.0" text="Select Order Box 8" />
                               <Label layoutX="20.0" layoutY="260.0" text="Complete Selected Order" />
                               <Label layoutX="20.0" layoutY="290.0" text="Recall Last Order" />
-                              <Label layoutX="20.0" layoutY="320.0" text="Exit Application" />
+                              <Label layoutX="20.0" layoutY="320.0" text="Accept Order" />
+                              <Label layoutX="20.0" layoutY="350.0" text="Exit Application" />
                               <KeyComboTextField fx:id="jtxtMapSelOrd1" layoutX="200.0" layoutY="20.0" prefHeight="25.0" prefWidth="150.0" />
                               <KeyComboTextField fx:id="jtxtMapSelOrd2" layoutX="200.0" layoutY="50.0" prefHeight="25.0" prefWidth="150.0" />
                               <KeyComboTextField fx:id="jtxtMapSelOrd3" layoutX="200.0" layoutY="80.0" prefHeight="25.0" prefWidth="150.0" />
@@ -78,12 +79,13 @@
                               <KeyComboTextField fx:id="jtxtMapSelOrd8" layoutX="200.0" layoutY="230.0" prefHeight="25.0" prefWidth="150.0" />
                               <KeyComboTextField fx:id="jtxtMapComplete" layoutX="200.0" layoutY="260.0" prefHeight="25.0" prefWidth="150.0" />
                               <KeyComboTextField fx:id="jtxtMapRecall" layoutX="200.0" layoutY="290.0" prefHeight="25.0" prefWidth="150.0" />
-                              <KeyComboTextField fx:id="jtxtMapExit" layoutX="200.0" layoutY="320.0" prefHeight="25.0" prefWidth="150.0" />
+                              <KeyComboTextField fx:id="jtxtMapAccept" layoutX="200.0" layoutY="320.0" prefHeight="25.0" prefWidth="150.0" />
+                              <KeyComboTextField fx:id="jtxtMapExit" layoutX="200.0" layoutY="350.0" prefHeight="25.0" prefWidth="150.0" />
                            </children>
                     </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab text="Miscellaneous">
+                  <Tab closable="false" text="Miscellaneous">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -113,23 +115,26 @@
                               <Label layoutX="14.0" layoutY="176.0" text="Theme CSS File" />
                               <TextField fx:id="jtxtCSSFile" layoutX="157.0" layoutY="172.0" prefHeight="25.0" prefWidth="330.0" />
                               <Button fx:id="jbtnChooseCSS" layoutX="499.0" layoutY="172.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Choose..." />
-                              <Label layoutX="17.0" layoutY="251.0" text="Sound File" />
-                              <CheckBox fx:id="jchkPlaySound" layoutX="16.0" layoutY="213.0" mnemonicParsing="false" text="Play sound when" />
-                              <TextField fx:id="jtxtSoundFile" layoutX="99.0" layoutY="246.0" prefHeight="25.0" prefWidth="386.0" />
-                              <Button fx:id="jbtnChooseSound" layoutX="499.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Choose..." />
-                              <ChoiceBox fx:id="jchcSoundAction" layoutX="162.0" layoutY="211.0" prefHeight="25.0" prefWidth="255.0">
-                                <items>
-                                    <FXCollections fx:factory="observableArrayList">
-                                        <String fx:value="First order is sent" />
-                                        <String fx:value="Any order is sent" />
-                                    </FXCollections>            
-                                </items>
-                                <value>
-                                    <String fx:value="First order is sent" /> 
-                                </value>
-										</ChoiceBox>
                            </children>
                         </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab closable="false" text="Sound">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+								 <children>
+                              <Label fx:id="jlblFirstSoundFile" layoutX="15.0" layoutY="56.0" text="Sound File" />
+                              <CheckBox fx:id="jchkPlayFirst" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Play sound when initial order is sent" />
+                              <TextField fx:id="jtxtSoundFirstFile" layoutX="97.0" layoutY="51.0" prefHeight="25.0" prefWidth="386.0" />
+                              <Button fx:id="jbtnChooseFirstSound" layoutX="497.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Choose..." />
+                              <CheckBox fx:id="jchkPlaySubsequent" layoutX="14.0" layoutY="156.0" mnemonicParsing="false" text="Play sound when subsequent orders are sent" />
+                              <Label fx:id="jlblSubsequentSoundFile" layoutX="15.0" layoutY="193.0" text="Sound File" />
+                              <Button fx:id="jbtnChooseSubsequentSound" layoutX="497.0" layoutY="185.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Choose..." />
+                              <TextField fx:id="jtxtSoundSubsequentFile" layoutX="97.0" layoutY="186.0" prefHeight="25.0" prefWidth="386.0" />
+                              <CheckBox fx:id="jchkRepeatFirst" layoutX="14.0" layoutY="91.0" mnemonicParsing="false" text="Repeat until user accepts order" />
+                              <CheckBox fx:id="jchkRepeatSubsequent" layoutX="14.0" layoutY="231.0" mnemonicParsing="false" text="Repeat until user accepts order" />
+								 </children>
+							 </AnchorPane>
                     </content>
                   </Tab>
               </tabs>

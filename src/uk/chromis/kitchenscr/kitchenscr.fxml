@@ -178,9 +178,10 @@
                   <Button fx:id="completed" defaultButton="true" layoutX="226.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleCompleteOrder" prefHeight="35.0" prefWidth="513.0" styleClass="complete_button" textAlignment="CENTER" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="226.0" AnchorPane.rightAnchor="283.0" />
                   <Button fx:id="exit" layoutX="954.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleExitClick" styleClass="exit" text="Exit" AnchorPane.rightAnchor="9.0" />
                   <Label fx:id="clock" alignment="TOP_CENTER" layoutX="50.0" layoutY="4.0" styleClass="clock" text="clock" AnchorPane.leftAnchor="50.0" />
-                  <Button fx:id="recall" layoutX="783.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleRecallOrder" styleClass="recall" text="Recall" AnchorPane.rightAnchor="128.0" />
+                  <Button fx:id="recall" layoutX="880.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleRecallOrder" styleClass="recall" text="Recall" AnchorPane.rightAnchor="84.0" />
 
                   <Text layoutX="3.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="version_number" text="V1.8" />
+                  <Button fx:id="accept" layoutX="783.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleAcceptOrder" styleClass="recall" text="Accept" AnchorPane.rightAnchor="176.0" />
 							
                </children></AnchorPane>
         </items>

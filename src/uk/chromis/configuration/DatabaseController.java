@@ -35,7 +35,6 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -46,6 +45,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
@@ -88,14 +88,19 @@ public class DatabaseController implements Initializable {
     public TextField jtxtClockFormat;
     public Spinner historyCount;
     public CheckBox jSecondscr;
-    public CheckBox jchkPlaySound;
-    public TextField jtxtSoundFile;
-    public Button jbtnChooseSound;
+    public CheckBox jchkPlayFirst;
+    public TextField jtxtSoundFirstFile;
+    public Button jbtnChooseFirstSound;
+    public CheckBox jchkRepeatFirst;
+    public Label jlblFirstSoundFile;
+    public CheckBox jchkPlaySubsequent;
+    public TextField jtxtSoundSubsequentFile;
+    public Button jbtnChooseSubsequentSound;
+    public CheckBox jchkRepeatSubsequent;
+    public Label jlblSubsequentSoundFile;
     
     @FXML
-    public ChoiceBox jchcSoundAction;
-    private Integer selectedSoundActionIndex = null;
-    
+   
     
     private final DirtyManager dirty = new DirtyManager();
     private String display;
@@ -132,6 +137,8 @@ public class DatabaseController implements Initializable {
     @FXML
     private KeyComboTextField jtxtMapRecall;
     @FXML
+    private KeyComboTextField jtxtMapAccept;
+    @FXML
     private KeyComboTextField jtxtMapExit;
 
 
@@ -145,6 +152,7 @@ public class DatabaseController implements Initializable {
     private KeyCodeCombination keyComboSelOrd8;
     private KeyCodeCombination keyComboComplete;
     private KeyCodeCombination keyComboRecall;
+    private KeyCodeCombination keyComboAccept;
     private KeyCodeCombination keyComboExit;
 	 
 
@@ -173,11 +181,15 @@ public class DatabaseController implements Initializable {
         jtxtMapSelOrd8.textProperty().addListener(dirty);
         jtxtMapComplete.textProperty().addListener(dirty);
         jtxtMapRecall.textProperty().addListener(dirty);
+        jtxtMapAccept.textProperty().addListener(dirty);
         jtxtMapExit.textProperty().addListener(dirty);        
         jSecondscr.selectedProperty().addListener(dirty);
-        jchkPlaySound.selectedProperty().addListener(dirty);
-        jtxtSoundFile.textProperty().addListener(dirty);
-        jchcSoundAction.valueProperty().addListener(dirty);
+        jchkPlayFirst.selectedProperty().addListener(dirty);
+        jtxtSoundFirstFile.textProperty().addListener(dirty);
+        jchkRepeatFirst.selectedProperty().addListener(dirty);
+        jchkPlaySubsequent.selectedProperty().addListener(dirty);
+        jtxtSoundSubsequentFile.textProperty().addListener(dirty);
+        jchkRepeatSubsequent.selectedProperty().addListener(dirty);
         
         jcboDBDriver.setOnAction(e -> {
             if ("Apache Derby Client/Server".equals(jcboDBDriver.getValue())) {
@@ -254,23 +266,7 @@ public class DatabaseController implements Initializable {
             }
         });
 
-        
-        jchcSoundAction.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (oldValue != newValue) {
-                    selectedSoundActionIndex = newValue.intValue();
-                    switch(newValue.intValue()) {
-                        case 0:  // First order is sent
-                            break;
-                        case 1:  // Any order is sent
-                            break;
-                    }
-                }
-            }
-        });
 
-        
         
         jbtnChooseCSS.setOnAction((final ActionEvent e) -> {
             FileChooser fileChooser = new FileChooser();
@@ -286,28 +282,63 @@ public class DatabaseController implements Initializable {
         });
         
         
-        jchkPlaySound.selectedProperty().addListener(new ChangeListener<Boolean>() {
+        jchkPlayFirst.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                jtxtSoundFile.setDisable(!newValue);
-                jbtnChooseSound.setDisable(!newValue);
-                jchcSoundAction.setDisable(!newValue);
+                jtxtSoundFirstFile.setDisable(!newValue);
+                jbtnChooseFirstSound.setDisable(!newValue);
+                jchkRepeatFirst.setDisable(!newValue);
+                jlblFirstSoundFile.setDisable(!newValue);
+                jchkPlaySubsequent.setDisable(!newValue);
+                if ( !newValue ) {
+                    jchkPlaySubsequent.setSelected(false);
+                jtxtSoundSubsequentFile.setDisable(true);
+                jbtnChooseSubsequentSound.setDisable(true);
+                jchkRepeatSubsequent.setDisable(true);
+                jlblSubsequentSoundFile.setDisable(true);
+                }
             }
         });        
         
-        jbtnChooseSound.setOnAction((final ActionEvent e) -> {
+        jchkPlaySubsequent.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                jtxtSoundSubsequentFile.setDisable(!newValue);
+                jbtnChooseSubsequentSound.setDisable(!newValue);
+                jchkRepeatSubsequent.setDisable(!newValue);
+                jlblSubsequentSoundFile.setDisable(!newValue);
+            }
+        });        
+        
+        jbtnChooseFirstSound.setOnAction((final ActionEvent e) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Sound file");
-            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Sound Files (*.mp3,*.wav)", "*.mp3", "*.wav");
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("WAV Files (*.wav)", "*.wav");
             fileChooser.getExtensionFilters().add(extensionFilter);
             File soundDir = new File("resources\\sounds\\");
             if ( soundDir.exists() )
                 fileChooser.setInitialDirectory(soundDir);
             File returnFile = fileChooser.showOpenDialog(((Node)e.getTarget()).getScene().getWindow()); 
             if ( returnFile != null )
-                jtxtSoundFile.setText(returnFile.getAbsoluteFile().toString());
+                jtxtSoundFirstFile.setText(returnFile.getAbsoluteFile().toString());
         });
-	
+
+        
+        
+        jbtnChooseSubsequentSound.setOnAction((final ActionEvent e) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Sound file");
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("WAV Files (*.wav)", "*.wav");
+            fileChooser.getExtensionFilters().add(extensionFilter);
+            File soundDir = new File("resources\\sounds\\");
+            if ( soundDir.exists() )
+                fileChooser.setInitialDirectory(soundDir);
+            File returnFile = fileChooser.showOpenDialog(((Node)e.getTarget()).getScene().getWindow()); 
+            if ( returnFile != null )
+                jtxtSoundSubsequentFile.setText(returnFile.getAbsoluteFile().toString());
+        });
+        
+        
         loadProperties();
 
     }
@@ -410,6 +441,11 @@ public class DatabaseController implements Initializable {
             keyComboRecall = new KeyCodeCombination(KeyCode.R);
         }
         try {
+            keyComboAccept = (KeyCodeCombination) KeyCodeCombination.valueOf(AppConfig.getInstance().getProperty("keymap.accept"));
+        } catch(Exception ex) {
+            keyComboAccept = new KeyCodeCombination(KeyCode.A );
+        }
+        try {
             keyComboExit = (KeyCodeCombination) KeyCodeCombination.valueOf(AppConfig.getInstance().getProperty("keymap.exit"));
         } catch(Exception ex) {
             keyComboExit = new KeyCodeCombination(KeyCode.ENTER, ModifierValue.UP, ModifierValue.DOWN, ModifierValue.UP, ModifierValue.UP, ModifierValue.ANY);
@@ -424,45 +460,73 @@ public class DatabaseController implements Initializable {
         jtxtMapSelOrd8.setKeyCodeCombination(keyComboSelOrd8);
         jtxtMapComplete.setKeyCodeCombination(keyComboComplete);
         jtxtMapRecall.setKeyCodeCombination(keyComboRecall);
+        jtxtMapAccept.setKeyCodeCombination(keyComboAccept);
         jtxtMapExit.setKeyCodeCombination(keyComboExit);
         
         
         jtxtCSSFile.setText(AppConfig.getInstance().getProperty("screen.themefile"));
         
         try {
-            jchkPlaySound.setSelected(Boolean.parseBoolean(AppConfig.getInstance().getProperty("misc.playsound")));
+            jchkPlayFirst.setSelected(Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.playfirst")));
         } catch (Exception ex) {
-            jchkPlaySound.setSelected(false);
+            jchkPlayFirst.setSelected(false);
         }
         
-        if ( jchkPlaySound.isSelected() ) {
-            jtxtSoundFile.setDisable(false);
-            jbtnChooseSound.setDisable(false);
+        if ( jchkPlayFirst.isSelected() ) {
+            jtxtSoundFirstFile.setDisable(false);
+            jbtnChooseFirstSound.setDisable(false);
+            jchkRepeatFirst.setDisable(false);
+            jlblFirstSoundFile.setDisable(false);
+            jtxtSoundSubsequentFile.setDisable(false);
+            jbtnChooseSubsequentSound.setDisable(false);
+            jchkRepeatSubsequent.setDisable(false);
+            jlblSubsequentSoundFile.setDisable(false);
         } else {
-            jtxtSoundFile.setDisable(true);
-            jbtnChooseSound.setDisable(true);
-        }
-
-        jtxtSoundFile.setText(AppConfig.getInstance().getProperty("misc.soundfile"));
-
-        
-        String soundAction = AppConfig.getInstance().getProperty("misc.soundaction");
-        if (soundAction == null || "".equals(soundAction))
-            jchcSoundAction.getSelectionModel().select(1);
-        else {
-            try {
-                jchcSoundAction.getSelectionModel().select(Integer.parseInt(soundAction));
-            } catch (Exception ex) {
-                jchcSoundAction.getSelectionModel().select(1);
-            }
+            jtxtSoundFirstFile.setDisable(true);
+            jbtnChooseFirstSound.setDisable(true);
+            jchkRepeatFirst.setDisable(true);
+            jlblFirstSoundFile.setDisable(true);
+            jchkPlaySubsequent.setDisable(true);
+            jchkPlaySubsequent.setSelected(false);
+            jtxtSoundSubsequentFile.setDisable(true);
+            jbtnChooseSubsequentSound.setDisable(true);
+            jchkRepeatSubsequent.setDisable(true);
+            jlblSubsequentSoundFile.setDisable(true);
         }
         
         try {
-            
+            jchkPlaySubsequent.setSelected(Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.playsubsequent")));
         } catch (Exception ex) {
-            
+            jchkPlaySubsequent.setSelected(false);
         }
         
+        if ( jchkPlaySubsequent.isSelected() ) {
+            jtxtSoundSubsequentFile.setDisable(false);
+            jbtnChooseSubsequentSound.setDisable(false);
+            jchkRepeatSubsequent.setDisable(false);
+            jlblSubsequentSoundFile.setDisable(false);
+        } else {
+            jtxtSoundSubsequentFile.setDisable(true);
+            jbtnChooseSubsequentSound.setDisable(true);
+            jchkRepeatSubsequent.setDisable(true);
+            jlblSubsequentSoundFile.setDisable(true);
+        }
+
+        try {
+            jchkRepeatFirst.setSelected(Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.repeatfirst")));
+        } catch (Exception ex) {
+            jchkRepeatFirst.setSelected(false);
+        }
+                
+        try {
+            jchkRepeatSubsequent.setSelected(Boolean.parseBoolean(AppConfig.getInstance().getProperty("sound.repeatsubsequent")));
+        } catch (Exception ex) {
+            jchkRepeatSubsequent.setSelected(false);
+        }
+        
+        jtxtSoundFirstFile.setText(AppConfig.getInstance().getProperty("sound.firstfile"));
+        jtxtSoundSubsequentFile.setText(AppConfig.getInstance().getProperty("sound.subsequentfile"));
+
         dirty.resetDirty();
         
     }
@@ -495,12 +559,7 @@ public class DatabaseController implements Initializable {
             AppConfig.getInstance().setProperty("misc.exitaction", selectedExitActionIndex.toString());
         }
         
-        if (selectedSoundActionIndex != null) {
-            AppConfig.getInstance().setProperty("misc.soundaction", selectedSoundActionIndex.toString());
-        }
-        
         // Save the keyboard mappings
-        String testString = jtxtMapSelOrd1.getKeyCodeCombination().toString();
         AppConfig.getInstance().setProperty("keymap.selord1", jtxtMapSelOrd1.getKeyCodeCombination().toString());
         AppConfig.getInstance().setProperty("keymap.selord2", jtxtMapSelOrd2.getKeyCodeCombination().toString());
         AppConfig.getInstance().setProperty("keymap.selord3", jtxtMapSelOrd3.getKeyCodeCombination().toString());
@@ -512,16 +571,41 @@ public class DatabaseController implements Initializable {
         AppConfig.getInstance().setProperty("keymap.complete", jtxtMapComplete.getKeyCodeCombination().toString());
         AppConfig.getInstance().setProperty("keymap.exit", jtxtMapExit.getKeyCodeCombination().toString());
         AppConfig.getInstance().setProperty("keymap.recall", jtxtMapRecall.getKeyCodeCombination().toString());
+        AppConfig.getInstance().setProperty("keymap.accept", jtxtMapAccept.getKeyCodeCombination().toString());
         
         AppConfig.getInstance().setProperty("screen.themefile", jtxtCSSFile.getText());
         
-        if ( jchkPlaySound.isSelected() ) {
-            AppConfig.getInstance().setProperty("misc.playsound", "true" );
+        if ( jchkPlayFirst.isSelected() ) {
+            AppConfig.getInstance().setProperty("sound.playfirst", "true" );
         } else {
-            AppConfig.getInstance().setProperty("misc.playsound", "false" );
+            AppConfig.getInstance().setProperty("sound.playfirst", "false" );
         }
 
-        AppConfig.getInstance().setProperty("misc.soundfile", jtxtSoundFile.getText());
+        
+        if ( jchkPlaySubsequent.isSelected() ) {
+            AppConfig.getInstance().setProperty("sound.playsubsequent", "true" );
+        } else {
+            AppConfig.getInstance().setProperty("sound.playsubsequent", "false" );
+        }
+        
+        
+        if ( jchkRepeatFirst.isSelected() ) {
+            AppConfig.getInstance().setProperty("sound.repeatfirst", "true" );
+        } else {
+            AppConfig.getInstance().setProperty("sound.repeatfirst", "false" );
+        }
+        
+        
+        if ( jchkRepeatSubsequent.isSelected() ) {
+            AppConfig.getInstance().setProperty("sound.repeatsubsequent", "true" );
+        } else {
+            AppConfig.getInstance().setProperty("sound.repeatsubsequent", "false" );
+        }
+
+        
+        AppConfig.getInstance().setProperty("sound.firstfile", jtxtSoundFirstFile.getText());
+        
+        AppConfig.getInstance().setProperty("sound.subsequentfile", jtxtSoundSubsequentFile.getText());
 
         AppConfig.getInstance().save();        
         
