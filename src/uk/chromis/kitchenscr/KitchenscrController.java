@@ -162,7 +162,6 @@ public class KitchenscrController implements Initializable {
     
     
     private class PrintTimeAction implements ActionListener {
-
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             Platform.runLater(new Runnable() {
@@ -170,20 +169,17 @@ public class KitchenscrController implements Initializable {
                 public void run() {
                     updateClock();
                     updateTimers();
-
                 }
             });
         }
     }
 
     private class updateDisplay implements ActionListener {
-
         @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-
                     buildOrderPanels();
                 }
             });
@@ -719,18 +715,23 @@ public class KitchenscrController implements Initializable {
 	 private void playSoundFirst(boolean repeat) {
          
          if ( !clip.isRunning() ) {
-
-             if ( clip.isOpen() ) {
-                 clip.close();
-             }
-            try {
-                this.audioFile = new File(soundFirstFile);
-                this.inputStream = AudioSystem.getAudioInputStream(audioFile);
-                this.clip.open(inputStream);
-            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
-                playFirst = false;
-                System.err.println(e.getMessage());
-                return;
+             if ( !clip.isOpen() || ( clip.isOpen() && !audioFile.getPath().equals(soundFirstFile) )) {
+                 if ( clip.isOpen() ) {
+                     clip.close();
+                 }
+                try {
+                    this.audioFile = new File(soundFirstFile);
+                    this.inputStream = AudioSystem.getAudioInputStream(audioFile);
+                    this.clip.open(inputStream);
+                } catch (UnsupportedAudioFileException | IOException e) {
+                    playFirst = false;
+                    System.err.println(e.getMessage());
+                    return;
+                } catch (LineUnavailableException e) {
+                    playFirst = false;
+                    System.err.println(e.getMessage());
+                    return;
+                }
             }
 
             if ( repeat ) {
@@ -748,17 +749,23 @@ public class KitchenscrController implements Initializable {
 	 private void playSoundSubsequent(boolean repeat) {
          
          if ( !clip.isRunning() ) {
-             if ( clip.isOpen() ) {
-                 clip.close();
-             }
-            try {
-                this.audioFile = new File(soundSubsequentFile);
-                this.inputStream = AudioSystem.getAudioInputStream(audioFile);
-                this.clip.open(inputStream);
-            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
-                playSubsequent = false;
-                System.err.println(e.getMessage());
-                return;
+             if ( !clip.isOpen() || ( clip.isOpen() && !audioFile.getPath().equals(soundSubsequentFile) )) {
+                 if ( clip.isOpen() ) {
+                     clip.close();
+                 }
+                try {
+                    this.audioFile = new File(soundSubsequentFile);
+                    this.inputStream = AudioSystem.getAudioInputStream(audioFile);
+                    this.clip.open(inputStream);
+                } catch (UnsupportedAudioFileException | IOException e) {
+                    playSubsequent = false;
+                    System.err.println(e.getMessage());
+                    return;
+                } catch (LineUnavailableException e) {
+                    playSubsequent = false;
+                    System.err.println(e.getMessage());
+                    return;
+                }
             }
 
             if ( repeat ) {

@@ -40,6 +40,8 @@ public class DataLogicKitchen {
     private Session session;
     private String sql_query;
     private Query query;
+    private Boolean allOrders;
+    private Integer displayNumber;
 
     public DataLogicKitchen() {
         init();
@@ -47,14 +49,16 @@ public class DataLogicKitchen {
 
     public final void init() {
         session = HibernateUtil.getSessionFactory().openSession();
+        allOrders = Boolean.valueOf(AppConfig.getInstance().getProperty("screen.allorders"));
+        displayNumber = Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber"));
     }
 
     public List<String> readDistinctOrders() {
         init();
-        if (Boolean.valueOf(AppConfig.getInstance().getProperty("screen.allorders"))) {
+        if ( allOrders ) {
             sql_query = "SELECT DISTINCT ORDERID, ORDERTIME FROM ORDERS ORDER BY ORDERTIME ";
         } else {
-            sql_query = "SELECT DISTINCT ORDERID, ORDERTIME FROM ORDERS WHERE DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY ORDERTIME";
+            sql_query = "SELECT DISTINCT ORDERID, ORDERTIME FROM ORDERS WHERE DISPLAYID = " + displayNumber + " ORDER BY ORDERTIME";
         }
         // It may seem strange to start a transaction just for a select, but this is the
         // only way I can figure out how to flush the cache to get most recent updates from
@@ -72,15 +76,15 @@ public class DataLogicKitchen {
     public void removeOrder(String orderid) {
         init();
         session.beginTransaction();
-        if (Boolean.valueOf(AppConfig.getInstance().getProperty("screen.allorders"))) {
+        if ( allOrders ) {
             query = session.createQuery("DELETE FROM ORDERS WHERE ORDERID = :id ");
         } else {
             query = session.createQuery("DELETE FROM ORDERS WHERE ORDERID = :id AND DISPLAYID = :display");
-            query.setParameter("display", Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")));
+            query.setParameter("display", displayNumber );
         }
 
         query.setParameter("id", orderid);
-        int result = query.executeUpdate();
+        query.executeUpdate();
         session.getTransaction().commit();
         session.close();
     }
@@ -88,8 +92,8 @@ public class DataLogicKitchen {
     public void removeAllOrders() {
         init();
         session.beginTransaction();
-        Query query = session.createQuery("DELETE FROM ORDERS ");
-        int result = query.executeUpdate();
+        query = session.createQuery("DELETE FROM ORDERS ");
+        query.executeUpdate();
         session.getTransaction().commit();
         session.close();
     }
@@ -101,19 +105,17 @@ public class DataLogicKitchen {
         init();
         session.beginTransaction();
         query = session.createQuery("DELETE FROM ORDERS WHERE DISPLAYID = :display");
-        query.setParameter("display", Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")));
-        int result = query.executeUpdate();
+        query.setParameter("display", displayNumber );
+        query.executeUpdate();
         session.getTransaction().commit();
         session.close();
     }
 
     public List<Orders> selectByOrderId(String orderid) {
-        if (Boolean.valueOf(AppConfig.getInstance().getProperty("screen.allorders"))) {
-//            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' ORDER BY AUXILIARY ";
+        if (allOrders) {
             sql_query = "SELECT * FROM ORDERS WHERE ORDERID = '" + orderid + "' ORDER BY SEQUENCE ";
         } else {
-//            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY AUXILIARY ";
-            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + Integer.parseInt(AppConfig.getInstance().getProperty("screen.displaynumber")) + " ORDER BY SEQUENCE ";
+            sql_query = "SELECT * FROM ORDERS WHERE ORDERID ='" + orderid + "' AND DISPLAYID = " + displayNumber + " ORDER BY SEQUENCE ";
         }
         init();
         // It may seem strange to start a transaction just for a select, but this is the
@@ -148,10 +150,9 @@ public class DataLogicKitchen {
 		query.setParameter("displayid", orderData.getDisplayid());
         query.setParameter("auxiliaryid", orderData.getAuxiliary());
         query.setParameter("sequence", orderData.getSequence());
-		int result = query.executeUpdate();
+		query.executeUpdate();
 		session.getTransaction().commit();
         session.close();
 	}
-	 
 
 }
