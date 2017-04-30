@@ -55,6 +55,8 @@ import uk.chromis.forms.AppConfig;
 import uk.chromis.utils.DataLogicKitchen;
 import uk.chromis.utils.FixedStack;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -715,31 +717,30 @@ public class KitchenscrController implements Initializable {
 	 private void playSoundFirst(boolean repeat) {
          
          if ( !clip.isRunning() ) {
-             if ( !clip.isOpen() || ( clip.isOpen() && !audioFile.getPath().equals(soundFirstFile) )) {
-                 if ( clip.isOpen() ) {
-                     clip.close();
-                 }
-                try {
-                    this.audioFile = new File(soundFirstFile);
-                    this.inputStream = AudioSystem.getAudioInputStream(audioFile);
-                    this.clip.open(inputStream);
-                } catch (UnsupportedAudioFileException | IOException e) {
-                    playFirst = false;
-                    System.err.println(e.getMessage());
-                    return;
-                } catch (LineUnavailableException e) {
-                    playFirst = false;
-                    System.err.println(e.getMessage());
-                    return;
-                }
+             if ( clip.isOpen() ) {
+                clip.close();
+             }
+            try {
+                this.audioFile = new File(soundFirstFile);
+                this.inputStream = AudioSystem.getAudioInputStream(audioFile);
+                this.clip.open(inputStream);
+            } catch (UnsupportedAudioFileException | IOException e) {
+                playFirst = false;
+                System.err.println(e.getMessage());
+                return;
+            } catch (LineUnavailableException e) {
+                playFirst = false;
+                System.err.println(e.getMessage());
+                return;
             }
-
+                
             if ( repeat ) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
+                this.clip.loop(Clip.LOOP_CONTINUOUSLY);
                 accept.setVisible(true);
             } else {
-                clip.start();
+                this.clip.start();
             }
+            
          }
      }
 
@@ -749,30 +750,28 @@ public class KitchenscrController implements Initializable {
 	 private void playSoundSubsequent(boolean repeat) {
          
          if ( !clip.isRunning() ) {
-             if ( !clip.isOpen() || ( clip.isOpen() && !audioFile.getPath().equals(soundSubsequentFile) )) {
-                 if ( clip.isOpen() ) {
-                     clip.close();
-                 }
-                try {
-                    this.audioFile = new File(soundSubsequentFile);
-                    this.inputStream = AudioSystem.getAudioInputStream(audioFile);
-                    this.clip.open(inputStream);
-                } catch (UnsupportedAudioFileException | IOException e) {
-                    playSubsequent = false;
-                    System.err.println(e.getMessage());
-                    return;
-                } catch (LineUnavailableException e) {
-                    playSubsequent = false;
-                    System.err.println(e.getMessage());
-                    return;
-                }
+            if ( clip.isOpen() ) {
+                clip.close();
             }
+           try {
+               this.audioFile = new File(soundSubsequentFile);
+               this.inputStream = AudioSystem.getAudioInputStream(audioFile);
+               this.clip.open(inputStream);
+           } catch (UnsupportedAudioFileException | IOException e) {
+               playSubsequent = false;
+               System.err.println(e.getMessage());
+               return;
+           } catch (LineUnavailableException e) {
+               playSubsequent = false;
+               System.err.println(e.getMessage());
+               return;
+           }
 
             if ( repeat ) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
+                this.clip.loop(Clip.LOOP_CONTINUOUSLY);
                 accept.setVisible(true);
             } else {
-                clip.start();
+                this.clip.start();
             }
          }
      }
